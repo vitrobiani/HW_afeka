@@ -15,6 +15,14 @@ void radixImplementation()
     {
         addTailLinkedList(list, rand());
     }
+
+    // addTailLinkedList(list, 1);
+    // addTailLinkedList(list, 1);
+    // addTailLinkedList(list, 21123451);
+    // addTailLinkedList(list, 11);
+    // addTailLinkedList(list, 121);
+    // addTailLinkedList(list, 11);
+
     printf("\nthe list before the sort: \n");
     printList(list->head);
     
@@ -84,26 +92,11 @@ void linkedListFuncsImplementation()
 
 }
 
-// int arrayNumCheck(int arr1[], int arr2[])
-// {   
-//     node* head = initlinkedList();
-
-//     for (int i = 0; i < SIZE ; i++) nodeAddLinkedList(&head, arr2[i]);
-
-//     for (int i = 0; i < SIZE ; i++)
-//     {
-        
-        
-//     }
-    
-// }
-
 // driver code
 int main()
 {
-    
-    
-    
+    // uncomment what you want to test
+
     // radix sort
     radixImplementation();
 
@@ -115,6 +108,6 @@ int main()
 
 
     // for exe file
-    system("pause");
+    // system("pause");
     return 0;
 }

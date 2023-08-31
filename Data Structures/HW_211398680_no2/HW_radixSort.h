@@ -19,18 +19,21 @@ int findDigs(int i)
 
 tailLinkedList* radixSort(tailLinkedList* list, int b)
 {
-    tailLinkedList* arr[b];
+    tailLinkedList* arr[b]; // the array we will use
     
-    int maxDig = findDigs(findMaxInLinkedList(list->head));
+    // finding the loop amount (d)
+    int maxDig = findDigs(findMaxInLinkedList(list->head)); 
     int d = maxDig;
     while (maxDig > 0)
     {
+        // initializing all the items in the array
         for (int i = 0; i < b; i++) arr[i] = initTailLinkedList();
-        
+
+        int p = (int)(pow(b,d-maxDig+1)); // the units (tens, thousnds etc.) 
         node* t = list->head;
-        int p = (int)(pow(b,d-maxDig+1)); 
         while(t != NULL)
         {
+            // calculating where in the array should we put the number
             int temp = t->data % p;
             int sorter = (temp - (temp % (p/b)))/(p/b);
 
@@ -39,21 +42,25 @@ tailLinkedList* radixSort(tailLinkedList* list, int b)
             t = t->next;
         }
 
-        for (int i = 0, k = 0; i < b; i++)
+        // connecting all the tails
+        int i = 0, k = 0;
+        while (arr[i]->head == NULL) i++;
+        k = i;
+        list->head = arr[k]->head;
+        for (; i < b; i++)
         {   
-            if (arr[i]->head != NULL )
+            if (arr[i]->head != NULL && i != k)
             {
                 arr[k]->tail->next = arr[i]->head;
                 k=i;
             }
         }
-        list->head = arr[0]->head;
-        list->tail = arr[b]->tail;
+        list->tail = arr[k]->tail;
         /*
         uncomment this if you want to see the steps!
-        */
         printf("%d) %*s", p/b, maxDig, "");
         printList(list->head);
+        */
         maxDig--;
     }
     return list;
