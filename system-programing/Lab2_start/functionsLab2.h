@@ -1,0 +1,5 @@
+
+
+//int  checkArray
+//int  countCharInMat
+
