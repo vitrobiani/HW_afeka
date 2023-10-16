@@ -9,7 +9,7 @@ void printArr(int arr[], int len){
 }
 
 int* init_arr(int len){
-    int* arr = malloc(sizeof(int)*len);
+    int arr[len];
     return arr;
 }
 
