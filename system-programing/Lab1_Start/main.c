@@ -3,12 +3,12 @@
 
 int main()
 {
-	int basis;
+	int base;
 	
 	helloWorld();
 	printf("Please enter a number\n");
-	scanf("%d", &basis);
-	printTriangle(basis);
+	scanf("%d", &base);
+	printTriangle(base);
     return 0;
 }
 

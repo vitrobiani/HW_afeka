@@ -17,6 +17,5 @@ void printTriangle(int s){
          
         printf("\n");
    }
-   //printf("%d\n", s); 
 }
 
