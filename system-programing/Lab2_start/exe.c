@@ -22,9 +22,11 @@ void q1_B()
     printf("arr len = %d\n", arrSize);
     printArr(arr, arrSize);
 
+    printf("hh");
+
 }
 
-int checkMatrixForLetter(char mat[][], int row, int col, char dup)
+int checkMatrixForLetter(int row, int col, char mat[row][col], char dup)
 {
     int count;
     for (int i = 0; i < row; i++) {
@@ -40,8 +42,8 @@ int checkMatrixForLetter(char mat[][], int row, int col, char dup)
 void q2()
 {
     char mat[][3] = {{'a','b','c'},{'d','e','f'},{'g','h','i'}};
-    
-	int c = checkMatrixForLetter(mat, 3, 3, 'a');
+
+	int c = checkMatrixForLetter(3, 3, mat, 'a');
 
     printf("%d\n", c);
 
