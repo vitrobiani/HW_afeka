@@ -1,24 +1,17 @@
-obj = prog.o arrays.o functionsLab2.o exe.o
-exe = prog
+f=*.c
+obj=*.o
+exe=prog
+CC=gcc
+FLAGS=
 
-$(exe): $(obj)
-	gcc $(obj) -o prog
+$(exe): $(obj) $f
+	$(CC) $(FLAGS) $(obj) -o prog
 
-${obj[0]}:
-	gcc -c prog.c
-
-${obj[1]}:
-	gcc -c arrays.c
-
-functionsLab.o:
-	gcc -c functionsLab2.c
-
-exe.o:
-	gcc -c exe.c
-
-clr:
-	rm *.o
+$(obj): $f
+	$(CC) -c $f
 
 clean:
-	rm $(obj) $(exe)
+	rm $(obj)
 
+clr:
+	rm $(obj) $(exe)

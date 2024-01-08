@@ -1,15 +1,17 @@
-obj =  main.o functionsLab1.o
-exe = prog
+f=*.c
+obj=*.o
+exe=prog
+CC=gcc
+FLAGS=
 
+$(exe): $(obj) $f
+	$(CC) $(FLAGS) $(obj) -o prog
 
-$(exe): $(obj)
-	gcc main.o functionsLab1.o -o prog
-
-main.o:
-	gcc -c main.c
-
-functionsLab1.o:
-	gcc -c functionsLab1.c
+$(obj): $f
+	$(CC) -c $f
 
 clean:
-	rm main.o functionsLab1.o prog
+	rm $(obj)
+
+clr:
+	rm $(obj) $(exe)

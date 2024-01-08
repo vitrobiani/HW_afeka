@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[])
 {
+    if (argc == 0) return 1;
     printf("%s\n", argv[1]);
     if (strcmp(argv[1], "1")) {
         q1_A();
