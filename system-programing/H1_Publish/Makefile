@@ -2,7 +2,7 @@ f=*.c
 objs=*.o
 exe=prog
 CC=gcc
-FLAGS=-lm
+FLAGS=-lm -Wall -Werror
 DEBUG=-g
 
 $(exe): $(objs) $f
@@ -12,7 +12,4 @@ $(objs): $f
 	$(CC) -c $f $(FLAGS) $(DEBUG)
 
 clean:
-	rm $(objs)
-
-clr:
 	rm $(objs) $(exe)

@@ -1,9 +1,9 @@
 exe=prog
-f=test.java
+f=*.java
 c=Test.class
 
 
-$(exe): clr
+$(exe): 
 	javac $f
 
 clr:

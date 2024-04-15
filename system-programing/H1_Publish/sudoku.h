@@ -9,10 +9,6 @@
 
 void sudokuGame();
 
-int isSqrt(double num);
-
-int getSize();
-
 int checkSudoku(int s, int* mat, int* occurred);
 
 int checkRow(int s, int* mat, int* occurred, int row);

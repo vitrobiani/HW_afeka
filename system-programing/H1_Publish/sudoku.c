@@ -2,59 +2,48 @@
 #include "generalFunctions.h"
 #include <stdio.h>
 void sudokuGame() {
-    int s = getSize();
-    printf("the size you chose is: %dx%d\n", s, s);
+    // getting the effective size from the user
+    int s = 0;
+    do {
+        printf(" Enter Sudoku size, sqrt(size) need to be an integer less then "
+               "25\n");
+        scanf("%d", &s);
+    } while (s <= 0 || s > SIZE || !isSqrt(s));
 
+    // setting up the martrix and the helper array
     int mat[SIZE][SIZE];
-    int *pMat = (int*)mat;
-    initMat(SIZE, pMat);
-    getMatValues(s,SIZE, pMat);
-
-    printMat(SIZE, pMat);
+    int *pMat = (int *)mat;
+    initMat(pMat, SIZE, SIZE);
+    getMatValues(s, pMat);
     int occurred[s];
 
+    printf("\n");
+    printMat(s, pMat);
+
     if (checkSudoku(s, pMat, occurred)) {
-        printf("is good");
+        printf("A valid Sudoku");
     } else {
-        printf("is not\n");
-    }
-}
-
-int getSize() {
-    double s = 0;
-    do {
-        printf("please enter the size:  \n");
-        scanf("%lf", &s);
-    } while (s < 1 || s > 25 || isSqrt(s));
-
-    return (int)s;
-}
-
-int isSqrt(double num) {
-    double sr = sqrt(num);
-    printf("\n %lf \n", sr);
-    if ((sr - (int)sr) == 0) {
-        return 0;
-    } else {
-        return 1;
+        printf("Not a valid Sudoku\n");
     }
 }
 
 int checkSudoku(int s, int *mat, int *occurred) {
+    int isSudokuGood;
+    // to check rows and cols
     for (int i = 0; i < s; i++) {
-        memset(occurred, 0, s * sizeof(int));
-        if (!(checkRow(s, mat, occurred, i) && checkCol(s, mat, occurred, i))) {
+        isSudokuGood =
+            (checkRow(s, mat, occurred, i) && checkCol(s, mat, occurred, i));
+        if (!isSudokuGood)
             return 0;
-        }
     }
-
+    // to check the cubes
     int sr = (int)sqrt(s);
     for (int i = 0, k = 0; k < sr; i += sr) {
         for (int j = 0, t = 0; t < sr; j += sr) {
             memset(occurred, 0, s * sizeof(int));
-            if (!(checkCube(s, mat, occurred, i, j, sr))) {
+            isSudokuGood = (checkCube(s, mat, occurred, i, j, sr));
+            if (!isSudokuGood)
                 return 0;
-            }
             t++;
         }
         k++;
@@ -63,10 +52,15 @@ int checkSudoku(int s, int *mat, int *occurred) {
 }
 
 int checkRow(int s, int *mat, int *occurred, int row) {
+    memset(occurred, 0, s * sizeof(int));
     for (int j = 0; j < s; j++) {
-        occurred[(int)*(mat + row * s+ j) - 1] = 1;
+        int tmp = *(mat + row * s + j) - 1;
+        if (tmp < 0 || tmp >= s)
+            return 0; // if not in sudoku range
+        *(occurred + tmp) = 1;
     }
 
+    // checking if anything haven't occurred
     for (int i = 0; i < s; i++) {
         if (occurred[i] == 0) {
             return 0;
@@ -76,10 +70,15 @@ int checkRow(int s, int *mat, int *occurred, int row) {
 }
 
 int checkCol(int s, int *mat, int *occurred, int col) {
+    memset(occurred, 0, s * sizeof(int));
     for (int j = 0; j < s; j++) {
-        occurred[(int)*(mat + col + s * j) - 1] = 1;
+        int tmp = ((int)*(mat + col + s * j) - 1);
+        if (tmp < 0 || tmp >= s)
+            return 0; // if not in sudoku range
+        *(occurred + tmp) = 1;
     }
 
+    // checking if anything haven't occurred
     for (int i = 0; i < s; i++) {
         if (occurred[i] == 0) {
             return 0;
@@ -91,16 +90,19 @@ int checkCol(int s, int *mat, int *occurred, int col) {
 int checkCube(int s, int *mat, int *occurred, int row, int col, int sr) {
     for (int i = row, k = 0; k < sr; i++) {
         for (int j = col, t = 0; t < sr; j++) {
-            occurred[(int)*(mat + i * s + j) - 1] = 1;
+            int tmp = *(mat + i * s + j) - 1;
+            if (tmp < 0 || tmp >= s)
+                return 0; // if not in sudoku range
+            *(occurred + tmp) = 1;
             t++;
         }
         k++;
     }
 
+    // checking if anything haven't occurred
     for (int i = 0; i < s; i++) {
-        if (occurred[i] == 0) {
+        if (occurred[i] == 0)
             return 0;
-        }
     }
     return 1;
 }

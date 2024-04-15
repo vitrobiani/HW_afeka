@@ -1,17 +1,18 @@
 f=*.c
-obj=*.o
+objs=*.o
 exe=prog
 CC=gcc
-FLAGS=
+FLAGS=-lm -Wall -Werror -s
+DEBUG=-g
 
-$(exe): $(obj) $f
-	$(CC) $(FLAGS) $(obj) -o prog
+$(exe): $(objs) $f
+	$(CC) $(objs) -o prog $(FLAGS) $(DEBUG)
 
-$(obj): $f
-	$(CC) -c $f
+$(objs): $f
+	$(CC) -c $f $(FLAGS) $(DEBUG)
 
 clean:
-	rm $(obj)
+	rm $(objs)
 
 clr:
-	rm $(obj) $exe
+	rm $(objs) $(exe)

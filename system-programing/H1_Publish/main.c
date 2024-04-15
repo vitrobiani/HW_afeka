@@ -1,48 +1,46 @@
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
+
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#include "sudoku.h"
-//#include "pictureLines.h"
+#include "pictureLines.h"
 #include "pictureManipulation.h"
+#include "sudoku.h"
 
+int main() {
 
-int main()
-{
-    int option = 0;
-do {
+    char option;
+    srand(time(NULL)); // just for testing
+    
+    do {
+        printf("\n\nPlease choose one of the following options\n");
+        printf("S/s - Sudoku\n");
+        printf("A/a - All Lines\n");
+        printf("P/p - Picture Manipulation\n");
+        printf("E/e - Exit\n");
 
-	//srand((unsigned)12345); //just for testing
+        scanf(" %c", &option);
 
-	printf("\n\n");
-	printf("Please choose one of the following options\n");
-	printf("1 - Sudoku\n");
-	printf("2 - All Lines\n");
-	printf("3 - Picture Manipulation\n");
-	printf("-1 - Exit\n");
+        switch (option) {
+        case 'S':
+        case 's':
+            sudokuGame();
+            break;
 
-	scanf("%d", &option);
-	
-	switch (option)
-	{
-	case 1:
-		sudokuGame();
-		break;
+        case 'A':
+        case 'a':
+            addLines();
+            break;
 
-	case 2:
-//		addLines();
-		break;
+        case 'P':
+        case 'p':
+            pictureManipulation();
+            break;
 
-	case 3:
-		pictureManipulation();
-		break;
-
-	case -1:
-        printf("bye bye :)");
-        return 0;
-		break;
-	}
-}while (option != -1);
-    return 1;
+        case 'E':
+        case 'e':
+            break;
+        }
+    } while (option != 'e' && option != 'E');
 }
