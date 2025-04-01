@@ -1,45 +1,27 @@
-#include "/home/vitrobiani/.nix-profile/include/mpi.h"
+#include <mpi.h>
 #include <stdio.h>
 
-int main(int argc, char *argv[]) {
-    int x, y;
-    int my_rank;       /* rank of process */
-    int p;             /* number of processes */
-    MPI_Status status; /* return status for receive */
-    double t1, t2;
+int main(int argc, char** argv) {
+    // Initialize the MPI environment
+    MPI_Init(NULL, NULL);
 
-    /* start up MPI */
-    MPI_Init(&argc, &argv);
+    // Get the number of processes
+    int world_size;
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    /* find out process rank */
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+    // Get the rank of the process
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    /* find out number of processes */
-    MPI_Comm_size(MPI_COMM_WORLD, &p);
+    // Get the name of the processor
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int name_len;
+    MPI_Get_processor_name(processor_name, &name_len);
 
-    if (my_rank == 0) {
-        x = 7;
-        MPI_Send(&x, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
-        t1 = MPI_Wtime();
-        printf("The new value of x = %d\n", x);
-    } else {
-        MPI_Recv(&y, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
-        t2 = MPI_Wtime();
-    }
+    // Print off a hello world message
+    printf("Hello world from processor %s, rank %d out of %d processors\n",
+           processor_name, world_rank, world_size);
 
-    if (my_rank == 0) {
-        x = 7;
-        MPI_Send(&x, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
-        t1 = MPI_Wtime();
-        printf("The new value of x = %d\n", x);
-    } else {
-        MPI_Recv(&y, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
-        t2 = MPI_Wtime();
-    }
-
-    /* shut down MPI */
+    // Finalize the MPI environment.
     MPI_Finalize();
-
-    printf("time: %f\n", (t2 - t1));
-    return 0;
 }
