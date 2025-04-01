@@ -1,5 +1,5 @@
-// #include "/home/vitrobiani/.nix-profile/include/mpi.h"
-#include "mpi.h"
+#include "/home/vitrobiani/.nix-profile/include/mpi.h"
+// #include "mpi.h"
 #include <stdio.h>
 
 /*
