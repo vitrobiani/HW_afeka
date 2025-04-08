@@ -1,0 +1,94 @@
+
+%{
+#define DEPARTURES 300
+#define FLIGHT_NUMBER 301
+#define TIME 302
+#define AIRPORT 303
+#define CARGO 304
+#define FREIGHT 305
+
+union {
+  int ival;
+  char name [30];
+} yylval;
+
+int line = 1; // current input line. If we use %yylineno, we don't need this */
+
+#include <string.h> 
+
+extern int atoi (const char *);
+%}
+
+%option noyywrap
+
+%option yylineno
+
+%%
+"<departures>"   { strcpy (yylval.name, yytext); return DEPARTURES; }
+
+"freight"   { strcpy (yylval.name, yytext); return FREIGHT; }
+
+"cargo"   { strcpy (yylval.name, yytext); return CARGO; }
+
+[0][0-9]:[0-5][0-9]"a.m."       { strcpy (yylval.name, yytext); return TIME; }
+
+[1][0-2]:[0-5][0-9]"a.m."       { strcpy (yylval.name, yytext); return TIME; }
+
+[0][0-9]:[0-5][0-9]"p.m."       { strcpy (yylval.name, yytext); return TIME; }
+
+[1][0-2]:[0-5][0-9]"p.m."       { strcpy (yylval.name, yytext); return TIME; }
+
+[0-2][0-9]:[0-5][0-9]       { strcpy (yylval.name, yytext); return TIME; }
+
+[A-Z][A-Z][0-9]{1,4}       { strcpy (yylval.name, yytext); return FLIGHT_NUMBER; }
+
+"["([A-Z]*[ a-z]*)*"]"  { strcpy (yylval.name, yytext); return AIRPORT; }
+
+[\t\r ]+  { /* skip white space */ }
+
+[\n]+       { line+= yyleng; /* line += strlen(yytext); */ }
+
+.          { fprintf (stderr, "line %d: unrecognized token %c(%x)\n", 
+                               line, yytext[0], yytext[0]); }
+
+
+%%
+
+int main (int argc, char **argv)
+{
+   char str[100];
+   extern FILE *yyin;
+   int token;
+
+   if (argc < 2) {
+       yyin = stdin;
+   }else {
+       yyin = fopen (argv[1], "r");
+   }
+
+   while ((token = yylex ()) != 0) {
+        switch (token) {
+             case DEPARTURES: 
+                 printf("DEPARTURES: %s\n", yylval.name);
+                 break;
+             case FLIGHT_NUMBER: 
+                 printf("FLIGHT_NUMBER: %s\n", yylval.name);
+                 break;
+             case TIME: 
+                 printf("TIME: %s\n", yylval.name);
+                 break;
+             case AIRPORT: 
+                 printf("AIRPORT: %s\n", yylval.name);
+                 break;
+             case CARGO: 
+                 printf("CARGO: %s\n", yylval.name);
+                 break;
+             case FREIGHT: 
+                 printf("FREIGHT: %s\n", yylval.name);
+                 break;
+       } 
+   }
+   fclose (yyin);
+   exit (0);
+}
+
