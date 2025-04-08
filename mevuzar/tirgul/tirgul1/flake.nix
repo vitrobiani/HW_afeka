@@ -11,7 +11,7 @@
         in
         {
           devShells.default = pkgs.mkShell {
-            buildInputs = [ pkgs.mpich ];
+            buildInputs = [];
             shellHook = ''
                 #!/bin/bash
                 suffix=".c"
