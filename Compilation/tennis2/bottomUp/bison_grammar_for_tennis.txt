@@ -1,0 +1,25 @@
+input: TITLE list_of_players; 
+
+list_of_players: list_of_players player | player;
+          
+
+player: NAME PLAYER_NAME GENDER 
+        optional_wimbledon  
+		optional_australian_open 
+		optional_french_open;
+		
+
+optional_wimbledon: WIMBLEDON list_of_years |
+                    %empty ;
+
+optional_australian_open: AUSTRALIAN_OPEN list_of_years |
+                    %empty;
+
+optional_french_open: FRENCH_OPEN list_of_years |
+                    %empty;
+					
+list_of_years: list_of_years ',' year_spec | year_spec;
+
+
+year_spec: YEAR | YEAR '-' YEAR;
+

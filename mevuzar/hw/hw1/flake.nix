@@ -27,7 +27,7 @@
                     echo "Most recently edited $suffix file: $recent_file"
                     
                     # Compile the file using gcc
-                    mpicc "$recent_file" 
+                    mpicc -lm "$recent_file" 
                     if [ $? -eq 0 ]; then
                         echo "Compilation successful. Executable 'output' created."
                     else
