@@ -42,7 +42,7 @@ extern int atoi (const char *);
 
 [A-Z][A-Z][0-9]{1,4}       { strcpy (yylval.name, yytext); return FLIGHT_NUMBER; }
 
-"["([A-Z]*[ a-z]*)*"]"  { strcpy (yylval.name, yytext); return AIRPORT; }
+"["([A-Za-z]+[ A-Za-z]*)*"]"  { strcpy (yylval.name, yytext); return AIRPORT; }
 
 [\t\r ]+  { /* skip white space */ }
 
